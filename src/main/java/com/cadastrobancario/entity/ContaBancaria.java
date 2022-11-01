@@ -47,6 +47,9 @@ public class ContaBancaria {
 	public ContaBancaria() {
 	}
 
+	public ContaBancaria(Long idContaBancaria) {
+	}
+
 	public Long getId() {
 		return id;
 	}
