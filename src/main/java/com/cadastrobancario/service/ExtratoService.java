@@ -24,7 +24,11 @@ public class ExtratoService {
 
 	public Optional<Extrato> buscarPorId(Long id) {
 		return extratoRepository.findById(id);
-
+		
+	}
+	
+	public List<Extrato> buscarPorIdContaBancaria(Long idContaBancaria) {
+		return extratoRepository.findByContabancariaId(idContaBancaria);
 	}
 
 	public Extrato salvar(Extrato extrato) {

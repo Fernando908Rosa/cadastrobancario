@@ -4,18 +4,13 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 
-import com.cadastrobancario.entity.ContaBancaria;
-
-public class DepositoRequestDto {
-
-	@Column(name = "id")
-	private Long id;
+public class SaqueRequestDto {
 
 	@Column(name = "agencia")
 	private Long agencia;
 
-	@Column(name = "saldo")
-	private BigDecimal saldo;
+	@Column(name = "valor")
+	private BigDecimal valor;
 
 	@Column(name = "numerodaconta")
 	private String numerodaconta;
@@ -26,18 +21,6 @@ public class DepositoRequestDto {
 	@Column(name = "descricao")
 	private String descricao;
 
-	public ContaBancaria converterContaBancariaParaEntidadeContaBancaria() {
-		return new ContaBancaria(id, agencia, saldo, numerodaconta);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Long getAgencia() {
 		return agencia;
 	}
@@ -46,12 +29,12 @@ public class DepositoRequestDto {
 		this.agencia = agencia;
 	}
 
-	public BigDecimal getSaldo() {
-		return saldo;
+	public BigDecimal getValor() {
+		return valor;
 	}
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 	public String getNumerodaconta() {
@@ -76,6 +59,7 @@ public class DepositoRequestDto {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+
 	}
 
 }

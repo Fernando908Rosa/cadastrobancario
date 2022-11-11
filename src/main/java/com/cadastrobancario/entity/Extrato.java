@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.cadastrobancario.enuns.Transacao;
@@ -18,7 +17,7 @@ import com.cadastrobancario.enuns.Transacao;
 public class Extrato {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private BigDecimal valor;
 	private String titulo;
@@ -38,6 +37,28 @@ public class Extrato {
 		this.descricao = descricao;
 		this.transacao = transacao;
 		this.contabancaria = contabancaria;
+	}
+
+	public Extrato(BigDecimal valor, String titulo, String descricao, Transacao transacao,
+			ContaBancaria contabancaria) {
+		super();
+		this.valor = valor;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.transacao = transacao;
+		this.contabancaria = contabancaria;
+	}
+
+	public Extrato() {
+		super();
+	}
+
+	public Extrato(BigDecimal valor, Long agencia, String numerodaconta) {
+
+	}
+
+	public Extrato(BigDecimal saldo, Long agencia, String numerodaconta, String titulo2, String descricao2,
+			Transacao saque, ContaBancaria contaBancaria2) {
 	}
 
 	public Long getId() {

@@ -26,6 +26,8 @@ public class ContaBancaria {
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id")
 	private Usuario usuario;
+	private String titulo;
+	private String descricao;
 
 	public ContaBancaria(Long id, Long agencia, BigDecimal saldo, String numerodaconta, Usuario usuario) {
 		super();
@@ -48,6 +50,9 @@ public class ContaBancaria {
 	}
 
 	public ContaBancaria(Long idContaBancaria) {
+		super();
+		this.id = idContaBancaria;
+
 	}
 
 	public Long getId() {
@@ -88,6 +93,22 @@ public class ContaBancaria {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }

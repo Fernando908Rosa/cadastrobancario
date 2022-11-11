@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cadastrobancario.dto.ExtratoRequestDto;
 import com.cadastrobancario.dto.ExtratoResponseDto;
@@ -24,6 +26,8 @@ import com.cadastrobancario.service.ExtratoService;
 
 import io.swagger.annotations.ApiOperation;
 
+@RestController
+@RequestMapping("/api")
 public class ExtratoController {
 
 	@Autowired
@@ -39,12 +43,21 @@ public class ExtratoController {
 	}
 
 	@ApiOperation(value = "Buscar Por Extrato", nickname = "buscarPorExtrato")
-	@GetMapping("/contabancaria/{id}")
+	@GetMapping("/extrato/{id}")
 	public ResponseEntity<ExtratoResponseDto> buscarPorId(@PathVariable Long id) {
 		Optional<Extrato> extrato = extratoService.buscarPorId(id);
 		return extrato.isPresent()
 				? ResponseEntity.ok(ExtratoResponseDto.converterExtratoParaExtratoResponseDto(extrato.get()))
 				: ResponseEntity.notFound().build();
+
+	}
+
+	@ApiOperation(value = "Listar", nickname = "listarTodos")
+	@GetMapping("/extratos/{contabancariaid}")
+	public List<ExtratoResponseDto> buscarPorIdContaBancaria(@PathVariable Long contabancariaid) {
+		return extratoService.LitarExtrato().stream()
+				.map(extrato -> ExtratoResponseDto.converterExtratoParaExtratoResponseDto(extrato))
+				.collect(Collectors.toList());
 
 	}
 

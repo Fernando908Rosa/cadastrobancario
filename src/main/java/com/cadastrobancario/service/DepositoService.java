@@ -3,12 +3,17 @@ package com.cadastrobancario.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.cadastrobancario.dto.DepositoRequestDto;
 import com.cadastrobancario.entity.ContaBancaria;
+import com.cadastrobancario.entity.Extrato;
+import com.cadastrobancario.enuns.Transacao;
 import com.cadastrobancario.repository.ContaBancariaRepository;
 
 @Service
@@ -16,6 +21,9 @@ public class DepositoService {
 
 	@Autowired
 	private ContaBancariaRepository contabancariaRepository;
+
+	@Autowired
+	private ExtratoService extratoService;
 
 	public List<ContaBancaria> listarContaBancaria() {
 		return contabancariaRepository.findAll();
@@ -27,17 +35,21 @@ public class DepositoService {
 
 	}
 
-	public ContaBancaria salvar(ContaBancaria contabancaria) throws Exception {
-		ContaBancaria agencia = contabancariaRepository.findByAgenciaAndNumerodaconta(contabancaria.getAgencia(),
-				contabancaria.getNumerodaconta());
+	public ContaBancaria salvar(@Valid DepositoRequestDto depositoDto) throws Exception {
+		ContaBancaria buscaContaBancaria = contabancariaRepository
+				.findByAgenciaAndNumerodaconta(depositoDto.getAgencia(), depositoDto.getNumerodaconta());
 
-		if (agencia.getId() == null) {
+		if (buscaContaBancaria.getId() == null) {
 			throw new Exception("Erro, nao foi realizado o deposito");
 
 		}
-		BeanUtils.copyProperties(contabancaria, agencia, "id");
+		extratoService.salvar(new Extrato(depositoDto.getSaldo(), depositoDto.getTitulo(), depositoDto.getDescricao(),
+				Transacao.DEPOSITO, new ContaBancaria(buscaContaBancaria.getId())));
 
-		return contabancariaRepository.save(agencia);
+		depositoDto.setSaldo(buscaContaBancaria.getSaldo().add(depositoDto.getSaldo()));
+		BeanUtils.copyProperties(depositoDto, buscaContaBancaria, "id");
+
+		return contabancariaRepository.save(buscaContaBancaria);
 
 	}
 

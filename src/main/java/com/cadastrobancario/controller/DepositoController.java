@@ -54,8 +54,8 @@ public class DepositoController {
 	@PostMapping("/deposito")
 	public ResponseEntity<DepositoResponseDto> salvar(@Valid @RequestBody DepositoRequestDto depositoDto)
 			throws Exception {
-		ContaBancaria depositoSalva = depositoService
-				.salvar(depositoDto.converterDepositoRequestDtoParaEntidadeContaBancaria());
+
+		ContaBancaria depositoSalva = depositoService.salvar(depositoDto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(DepositoResponseDto.converterDepositoParaResponseDto(depositoSalva));
@@ -67,7 +67,7 @@ public class DepositoController {
 	public ResponseEntity<DepositoResponseDto> atualizar(@PathVariable Long id,
 			@Valid @RequestBody DepositoRequestDto depositoDto) {
 		ContaBancaria depositoAtualizado = depositoService.atualizar(id,
-				depositoDto.converterDepositoRequestDtoParaEntidadeContaBancaria());
+				depositoDto.converterContaBancariaParaEntidadeContaBancaria());
 		return ResponseEntity.ok(DepositoResponseDto.converterDepositoParaResponseDto(depositoAtualizado));
 
 	}

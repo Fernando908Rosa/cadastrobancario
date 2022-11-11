@@ -6,7 +6,7 @@ import javax.persistence.Column;
 
 import com.cadastrobancario.entity.ContaBancaria;
 
-public class DepositoRequestDto {
+public class SaqueRequestPutDto {
 
 	@Column(name = "id")
 	private Long id;

@@ -6,7 +6,7 @@ import javax.persistence.Column;
 
 import com.cadastrobancario.entity.ContaBancaria;
 
-public class DepositoRequestDto {
+public class SaqueResponseDto {
 
 	@Column(name = "id")
 	private Long id;
@@ -20,14 +20,17 @@ public class DepositoRequestDto {
 	@Column(name = "numerodaconta")
 	private String numerodaconta;
 
-	@Column(name = "titulo")
-	private String titulo;
+	public SaqueResponseDto(Long id, Long agencia, BigDecimal saldo, String numerodaconta) {
+		super();
+		this.id = id;
+		this.agencia = agencia;
+		this.saldo = saldo;
+		this.numerodaconta = numerodaconta;
+	}
 
-	@Column(name = "descricao")
-	private String descricao;
-
-	public ContaBancaria converterContaBancariaParaEntidadeContaBancaria() {
-		return new ContaBancaria(id, agencia, saldo, numerodaconta);
+	public static SaqueResponseDto converterSaqueParaResponseDto(ContaBancaria contabancaria) {
+		return new SaqueResponseDto(contabancaria.getId(), contabancaria.getAgencia(), contabancaria.getSaldo(),
+				contabancaria.getNumerodaconta());
 	}
 
 	public Long getId() {
@@ -60,22 +63,7 @@ public class DepositoRequestDto {
 
 	public void setNumerodaconta(String numerodaconta) {
 		this.numerodaconta = numerodaconta;
-	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 
 }
