@@ -1,13 +1,9 @@
 package com.cadastrobancario.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.cadastrobancario.dto.DepositoRequestDto;
@@ -25,52 +21,41 @@ public class DepositoService {
 	@Autowired
 	private ExtratoService extratoService;
 
-	public List<ContaBancaria> listarContaBancaria() {
-		return contabancariaRepository.findAll();
+	public ContaBancaria validandoContaBancaria(DepositoRequestDto depositoDto) {
+		return contabancariaRepository.findByAgenciaAndNumerodaconta(depositoDto.getAgencia(),
+				depositoDto.getNumerodaconta());
 
 	}
 
-	public Optional<ContaBancaria> buscarPorId(Long id) {
-		return contabancariaRepository.findById(id);
-
-	}
-
-	public ContaBancaria salvar(@Valid DepositoRequestDto depositoDto) throws Exception {
-		ContaBancaria buscaContaBancaria = contabancariaRepository
-				.findByAgenciaAndNumerodaconta(depositoDto.getAgencia(), depositoDto.getNumerodaconta());
-
-		if (buscaContaBancaria.getId() == null) {
+	public void realizandoDeposito(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositDto)
+			throws Exception {
+		if (buscarContaBancaria.getId() == null) {
 			throw new Exception("Erro, nao foi realizado o deposito");
 
 		}
-		extratoService.salvar(new Extrato(depositoDto.getSaldo(), depositoDto.getTitulo(), depositoDto.getDescricao(),
-				Transacao.DEPOSITO, new ContaBancaria(buscaContaBancaria.getId())));
+	}
 
-		depositoDto.setSaldo(buscaContaBancaria.getSaldo().add(depositoDto.getSaldo()));
-		BeanUtils.copyProperties(depositoDto, buscaContaBancaria, "id");
+	public void salvandoExtrato(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositDto) {
+		extratoService.salvar(new Extrato(depositDto.getSaldo(), depositDto.getTitulo(), depositDto.getDescricao(),
+				Transacao.DEPOSITO, new ContaBancaria(buscarContaBancaria.getId())));
+	}
 
-		return contabancariaRepository.save(buscaContaBancaria);
+	public ContaBancaria realizandoDeposito(@Valid DepositoRequestDto depositDto) throws Exception {
+
+		ContaBancaria buscarContaBancaria = validandoContaBancaria(depositDto);
+		realizandoDeposito(buscarContaBancaria, depositDto);
+
+		salvandoExtrato(buscarContaBancaria, depositDto);
+		return efetuadoDeposito(buscarContaBancaria, depositDto);
 
 	}
 
-	public ContaBancaria atualizar(Long Id, ContaBancaria contabancariaSalvar) {
-		ContaBancaria contabancariaVaiSerAtualizada = validarContaBancariaExiste(Id);
-		BeanUtils.copyProperties(contabancariaSalvar, contabancariaVaiSerAtualizada, "id");
-		return contabancariaRepository.save(contabancariaVaiSerAtualizada);
+	private ContaBancaria efetuadoDeposito(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositDto) {
+		depositDto.setSaldo(buscarContaBancaria.getSaldo().add(depositDto.getSaldo()));
+		BeanUtils.copyProperties(depositDto, buscarContaBancaria, "id");
 
-	}
+		return contabancariaRepository.save(buscarContaBancaria);
 
-	public void deletar(Long id) {
-		contabancariaRepository.deleteById(id);
-
-	}
-
-	private ContaBancaria validarContaBancariaExiste(Long id) {
-		Optional<ContaBancaria> contabancaria = buscarPorId(id);
-		if (contabancaria.isEmpty()) {
-			throw new EmptyResultDataAccessException(1);
-		}
-		return contabancaria.get();
 	}
 
 }
