@@ -21,10 +21,12 @@ public class SaqueService {
 	@Autowired
 	private ExtratoService extratoService;
 
-	public ContaBancaria realizandoSaque(@Valid SaqueRequestDto saqueDto) throws Exception {
-		ContaBancaria buscaContaBancaria = contabancariaRepository.findByAgenciaAndNumerodaconta(saqueDto.getAgencia(),
+	public ContaBancaria validaContaBancaria(SaqueRequestDto saqueDto) {
+		return contabancariaRepository.findByAgenciaAndNumerodaconta(saqueDto.getAgencia(),
 				saqueDto.getNumerodaconta());
+	}
 
+	public void validandoSaldo(ContaBancaria buscaContaBancaria, @Valid SaqueRequestDto saqueDto) throws Exception {
 		if (buscaContaBancaria.getId() == null) {
 			throw new Exception("Erro, nao foi realizado o saque");
 
@@ -32,13 +34,27 @@ public class SaqueService {
 
 		int retornValor = buscaContaBancaria.getSaldo().compareTo(saqueDto.getValor());
 		if (retornValor == -1) {
-			throw new Exception("Erro, nao foi possivel realizado o saque, não tem saldo suficiente R$:"
+			throw new Exception("Erro, nao foi possivel realizar o saque, não tem saldo suficiente R$:"
 					+ buscaContaBancaria.getSaldo());
 		}
+	}
 
+	public void salvandoExtrato(ContaBancaria buscaContaBancaria, @Valid SaqueRequestDto saqueDto) {
 		extratoService.salvar(new Extrato(saqueDto.getValor(), saqueDto.getTitulo(), saqueDto.getDescricao(),
 				Transacao.SAQUE, new ContaBancaria(buscaContaBancaria.getId())));
+	}
 
+	public ContaBancaria realizandoSaque(@Valid SaqueRequestDto saqueDto) throws Exception {
+
+		ContaBancaria buscaContaBancaria = validaContaBancaria(saqueDto);
+		validandoSaldo(buscaContaBancaria, saqueDto);
+
+		salvandoExtrato(buscaContaBancaria, saqueDto);
+		return efetuandoSaque(buscaContaBancaria, saqueDto);
+
+	}
+
+	public ContaBancaria efetuandoSaque(ContaBancaria buscaContaBancaria, @Valid SaqueRequestDto saqueDto) {
 		buscaContaBancaria.setSaldo(buscaContaBancaria.getSaldo().subtract(saqueDto.getValor()));
 		BeanUtils.copyProperties(saqueDto, buscaContaBancaria, "id");
 
