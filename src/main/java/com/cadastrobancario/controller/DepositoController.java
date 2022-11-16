@@ -29,10 +29,10 @@ public class DepositoController {
 	public ResponseEntity<DepositoResponseDto> realizandoDeposito(@Valid @RequestBody DepositoRequestDto depositoDto)
 			throws Exception {
 
-		ContaBancaria depositoSalva = depositoService.realizandoDeposito(depositoDto);
+		ContaBancaria depositoSalvo = depositoService.realizandoDeposito(depositoDto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(DepositoResponseDto.converterDepositoParaResponseDto(depositoSalva));
+				.body(DepositoResponseDto.converterDepositoParaResponseDto(depositoSalvo));
 
 	}
 

@@ -21,14 +21,13 @@ public class DepositoService {
 	@Autowired
 	private ExtratoService extratoService;
 
-	public ContaBancaria validandoContaBancaria(DepositoRequestDto depositoDto) {
+	public ContaBancaria retornandoContaBancaria(DepositoRequestDto depositoDto) {
 		return contabancariaRepository.findByAgenciaAndNumerodaconta(depositoDto.getAgencia(),
 				depositoDto.getNumerodaconta());
 
 	}
 
-	public void realizandoDeposito(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositDto)
-			throws Exception {
+	public void validandoContaBancaria(ContaBancaria buscarContaBancaria) throws Exception {
 		if (buscarContaBancaria.getId() == null) {
 			throw new Exception("Erro, nao foi realizado o deposito");
 
@@ -42,9 +41,8 @@ public class DepositoService {
 
 	public ContaBancaria realizandoDeposito(@Valid DepositoRequestDto depositDto) throws Exception {
 
-		ContaBancaria buscarContaBancaria = validandoContaBancaria(depositDto);
-		realizandoDeposito(buscarContaBancaria, depositDto);
-
+		ContaBancaria buscarContaBancaria = retornandoContaBancaria(depositDto);
+		validandoContaBancaria(buscarContaBancaria);
 		salvandoExtrato(buscarContaBancaria, depositDto);
 		return efetuadoDeposito(buscarContaBancaria, depositDto);
 
