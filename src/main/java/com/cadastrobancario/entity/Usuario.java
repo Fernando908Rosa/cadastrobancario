@@ -27,6 +27,8 @@ public class Usuario {
 	private String nomepai;
 	private String endereco;
 	private Genero genero;
+	private String email;
+	private String telefone;
 
 	public Usuario() {
 	}
@@ -36,7 +38,8 @@ public class Usuario {
 	}
 
 	public Usuario(Long id, String nome, String sobrenome, Date datanascimento, Integer cpf, String nomemae,
-			String nomepai, String endereco, Genero genero) {
+			String nomepai, String endereco, Genero genero, String email, String telefone) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -46,11 +49,14 @@ public class Usuario {
 		this.nomepai = nomepai;
 		this.endereco = endereco;
 		this.genero = genero;
+		this.email = email;
+		this.telefone = telefone;
+
 	}
 
 	@OneToOne(mappedBy = "usuario")
 	private ContaBancaria contabancaria;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -123,16 +129,42 @@ public class Usuario {
 		this.genero = genero;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public ContaBancaria getContabancaria() {
+		return contabancaria;
+	}
+
+	public void setContabancaria(ContaBancaria contabancaria) {
+		this.contabancaria = contabancaria;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", datanascimento="
 				+ datanascimento + ", cpf=" + cpf + ", nomemae=" + nomemae + ", nomepai=" + nomepai + ", endereco="
-				+ endereco + ", genero=" + genero + "]";
+				+ endereco + ", genero=" + genero + ", email=" + email + ", telefone=" + telefone + ", contabancaria="
+				+ contabancaria + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, datanascimento, endereco, genero, id, nome, nomemae, nomepai, sobrenome);
+		return Objects.hash(contabancaria, cpf, datanascimento, email, endereco, genero, id, nome, nomemae, nomepai,
+				sobrenome, telefone);
 	}
 
 	@Override
@@ -144,10 +176,12 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(datanascimento, other.datanascimento)
+		return Objects.equals(contabancaria, other.contabancaria) && Objects.equals(cpf, other.cpf)
+				&& Objects.equals(datanascimento, other.datanascimento) && Objects.equals(email, other.email)
 				&& Objects.equals(endereco, other.endereco) && genero == other.genero && Objects.equals(id, other.id)
 				&& Objects.equals(nome, other.nome) && Objects.equals(nomemae, other.nomemae)
-				&& Objects.equals(nomepai, other.nomepai) && Objects.equals(sobrenome, other.sobrenome);
+				&& Objects.equals(nomepai, other.nomepai) && Objects.equals(sobrenome, other.sobrenome)
+				&& Objects.equals(telefone, other.telefone);
 	}
 
 }

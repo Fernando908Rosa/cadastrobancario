@@ -35,12 +35,18 @@ public class UsuarioResponseDto {
 	@Column(name = "endereco")
 	private String endereco;
 
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "telefone")
+	private String telefone;
+
 	@Column(name = "genero")
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
 
 	public UsuarioResponseDto(Long id, String nome, String sobrenome, Date datanascimento, Integer cpf, String nomemae,
-			String nomepai, String endereco, Genero genero) {
+			String nomepai, String endereco, Genero genero, String telefone, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -50,13 +56,15 @@ public class UsuarioResponseDto {
 		this.nomemae = nomemae;
 		this.nomepai = nomepai;
 		this.endereco = endereco;
+		this.email = email;
+		this.telefone = telefone;
 		this.genero = genero;
 	}
 
 	public static UsuarioResponseDto converterUsuarioParaUsuarioResponseDto(Usuario usuario) {
 		return new UsuarioResponseDto(usuario.getId(), usuario.getNome(), usuario.getSobrenome(),
 				usuario.getDatanascimento(), usuario.getCpf(), usuario.getNomemae(), usuario.getNomepai(),
-				usuario.getEndereco(), usuario.getGenero());
+				usuario.getEndereco(), usuario.getGenero(), usuario.getEmail(), usuario.getTelefone());
 
 	}
 
@@ -122,6 +130,22 @@ public class UsuarioResponseDto {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public Genero getGenero() {

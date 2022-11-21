@@ -34,17 +34,18 @@ public class DepositoService {
 		}
 	}
 
-	public void salvandoExtrato(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositDto) {
-		extratoService.salvar(new Extrato(depositDto.getSaldo(), depositDto.getTitulo(), depositDto.getDescricao(),
+	public void salvandoExtrato(ContaBancaria buscarContaBancaria, @Valid DepositoRequestDto depositoDto) {
+		extratoService.salvar(new Extrato(depositoDto.getSaldo(), depositoDto.getTitulo(), depositoDto.getDescricao(),
 				Transacao.DEPOSITO, new ContaBancaria(buscarContaBancaria.getId())));
 	}
 
-	public ContaBancaria realizandoDeposito(@Valid DepositoRequestDto depositDto) throws Exception {
+	public ContaBancaria realizandoDeposito(@Valid DepositoRequestDto depositoDto) throws Exception {
 
-		ContaBancaria buscarContaBancaria = retornandoContaBancaria(depositDto);
+		ContaBancaria buscarContaBancaria = retornandoContaBancaria(depositoDto);
 		validandoContaBancaria(buscarContaBancaria);
-		salvandoExtrato(buscarContaBancaria, depositDto);
-		return efetuadoDeposito(buscarContaBancaria, depositDto);
+		salvandoExtrato(buscarContaBancaria, depositoDto);
+		return efetuadoDeposito(buscarContaBancaria, depositoDto);
+		
 
 	}
 

@@ -53,13 +53,8 @@ public class Extrato {
 		super();
 	}
 
-	public Extrato(BigDecimal valor, Long agencia, String numerodaconta) {
+	
 
-	}
-
-	public Extrato(BigDecimal saldo, Long agencia, String numerodaconta, String titulo2, String descricao2,
-			Transacao saque, ContaBancaria contaBancaria2) {
-	}
 
 	public Long getId() {
 		return id;
