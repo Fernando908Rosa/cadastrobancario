@@ -13,7 +13,7 @@ import com.cadastrobancario.enuns.Transacao;
 import com.cadastrobancario.repository.ContaBancariaRepository;
 
 @Service
-public class TransacaoGenericoService {
+public class TransacaoGenericoService<buscarUsuario> {
 
 	@Autowired
 	private ContaBancariaRepository contaBancariaRepository;
@@ -42,14 +42,23 @@ public class TransacaoGenericoService {
 
 	public ContaBancaria realizandoTransacaoGenerico(@Valid TransacaoGenericoRequestDto transacaogenericoDto)
 			throws Exception {
-		
-		
-		
+		ContaBancaria buscarContaBancaria = null;
+		if (transacaogenericoDto.getTransacaogenerico() == Transacao.PIX_ENTRADA) {
+			buscarContaBancaria = retornandoContaBancariaPeloEmailUsuario(transacaogenericoDto);
+		} else {
+			buscarContaBancaria = retornandoContaBancaria(transacaogenericoDto);
 
-		ContaBancaria buscarContaBancaria = retornandoContaBancaria(transacaogenericoDto);
+		}
+
 		validandocontaBancaria(buscarContaBancaria);
 		salvandoExtrato(buscarContaBancaria, transacaogenericoDto);
 		return efetuadoTransacaoGenerico(buscarContaBancaria, transacaogenericoDto);
+	}
+
+	private ContaBancaria retornandoContaBancariaPeloEmailUsuario(
+			@Valid TransacaoGenericoRequestDto transacaogenericoDto) {
+		return contaBancariaRepository.findByUsuarioEmailOrTelefone(transacaogenericoDto.getEmail(),
+				transacaogenericoDto.getTelefone());
 	}
 
 	public void validandoSaldo(ContaBancaria buscaContaBancaria,

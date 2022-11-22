@@ -29,12 +29,18 @@ public class TransacaoGenericoRequestDto {
 	@Column(name = "descricao")
 	private String descricao;
 
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "telefone")
+	private String telefone;
+
 	@Column(name = "transacaogenerico")
 	@Enumerated(EnumType.STRING)
 	private Transacao transacaogenerico;
 
 	public ContaBancaria converterContaBancariaParaEntidadeContaBancaria() {
-		return new ContaBancaria(id, agencia, saldo, numerodaconta, transacaogenerico);
+		return new ContaBancaria(id, agencia, saldo, numerodaconta, email, telefone, transacaogenerico);
 	}
 
 	public Long getId() {
@@ -85,6 +91,22 @@ public class TransacaoGenericoRequestDto {
 		this.descricao = descricao;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public Transacao getTransacaogenerico() {
 		return transacaogenerico;
 	}
@@ -93,9 +115,5 @@ public class TransacaoGenericoRequestDto {
 		this.transacaogenerico = transacaogenerico;
 	}
 
-	public Object getUsuarioId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

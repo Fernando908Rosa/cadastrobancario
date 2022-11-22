@@ -8,4 +8,6 @@ public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Lo
 
 	ContaBancaria findByAgenciaAndNumerodaconta(Long agencia, String numerodaconta);
 
+	ContaBancaria findByUsuarioEmailOrTelefone(String email, String telefone);
+
 }

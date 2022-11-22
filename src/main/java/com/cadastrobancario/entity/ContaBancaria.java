@@ -21,7 +21,6 @@ import com.cadastrobancario.enuns.Transacao;
 @Table(name = "tb_contabancaria")
 public class ContaBancaria {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -38,6 +37,8 @@ public class ContaBancaria {
 	private Usuario usuario;
 	private String titulo;
 	private String descricao;
+	private String email;
+	private String telefone;
 
 	public ContaBancaria(Long id, Long agencia, BigDecimal saldo, String numerodaconta, Usuario usuario) {
 		super();
@@ -65,12 +66,15 @@ public class ContaBancaria {
 
 	}
 
-	public ContaBancaria(Long id, Long agencia, BigDecimal saldo, String numerodaconta,	Transacao transacaogenerico) {
+	public ContaBancaria(Long id, Long agencia, BigDecimal saldo, String numerodaconta, String email, String telefone,
+			Transacao transacaogenerico) {
 		super();
 		this.id = id;
 		this.agencia = agencia;
 		this.saldo = saldo;
 		this.numerodaconta = numerodaconta;
+		this.email = email;
+		this.telefone = telefone;
 		this.transacaogenerico = transacaogenerico;
 
 	}
@@ -107,6 +111,14 @@ public class ContaBancaria {
 		this.numerodaconta = numerodaconta;
 	}
 
+	public Transacao getTransacaogenerico() {
+		return transacaogenerico;
+	}
+
+	public void setTransacaogenerico(Transacao transacaogenerico) {
+		this.transacaogenerico = transacaogenerico;
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -131,14 +143,20 @@ public class ContaBancaria {
 		this.descricao = descricao;
 	}
 
-	public Transacao getTransacaogenerico() {
-		return transacaogenerico;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setTransacaogenerico(Transacao transacaogenerico) {
-		this.transacaogenerico = transacaogenerico;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
-	
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
 }
