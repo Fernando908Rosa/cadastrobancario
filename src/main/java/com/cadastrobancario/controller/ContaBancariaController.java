@@ -35,6 +35,7 @@ public class ContaBancariaController {
 
 	@ApiOperation(value = "Listar", nickname = "listarTodos")
 	@GetMapping("/contabancarias")
+
 	public List<ContaBancariaResponseDto> getContaBancaria() {
 		return contabancariaService.listarContaBancaria().stream()
 				.map(contabancaria -> ContaBancariaResponseDto.converterContaBancariaParaResponseDto(contabancaria))
@@ -47,13 +48,14 @@ public class ContaBancariaController {
 	public ResponseEntity<ContaBancariaResponseDto> buscarPorId(@PathVariable Long id) {
 		Optional<ContaBancaria> contabancaria = contabancariaService.buscarPorId(id);
 		return contabancaria.isPresent()
-				? ResponseEntity.ok(ContaBancariaResponseDto.converterContaBancariaParaResponseDto(contabancaria.get()))
+				? ResponseEntity
+						.ok(ContaBancariaResponseDto.converterContaBancariaParaResponseDto(contabancaria.get()))
 				: ResponseEntity.notFound().build();
 
 	}
 
 	@ApiOperation(value = "Salvar", nickname = "salvarContaBancaria")
-	@PostMapping("/contabancaria/{idUsuario}")
+	@PostMapping("/contabancaria/{idUsuario}}")
 	public ResponseEntity<ContaBancariaResponseDto> salvar(@PathVariable Long idUsuario,
 			@Valid @RequestBody ContaBancariaRequestDto contabancariaDto) {
 		ContaBancaria contantabancariaSalva = contabancariaService

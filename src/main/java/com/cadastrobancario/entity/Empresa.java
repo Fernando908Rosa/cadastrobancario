@@ -29,6 +29,14 @@ public class Empresa {
 	private Date opcaopelosimplesexcluidodosimples;
 	private String opcaopelomei;
 
+	public Empresa() {
+	}
+
+	public Empresa(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Empresa(Long id, BigDecimal cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
 			String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel, BigDecimal capitalsocial,
 			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei) {
