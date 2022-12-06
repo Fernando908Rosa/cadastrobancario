@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 
 import com.cadastrobancario.entity.Empresa;
+import com.cadastrobancario.entity.Endereco;
 
 public class EmpresaResponseDto {
 
@@ -13,7 +14,7 @@ public class EmpresaResponseDto {
 	private Long id;
 
 	@Column(name = "cnpj")
-	private BigDecimal cnpj;
+	private String cnpj;
 
 	@Column(name = "nomedaempresa")
 	private String nomedaempresa;
@@ -45,10 +46,13 @@ public class EmpresaResponseDto {
 	@Column(name = "opcaopelomei")
 	private String opcaopelomei;
 
-	public EmpresaResponseDto(Long id, BigDecimal cnpj, String nomedaempresa, String fantasianome,
+	@Column(name = "endereco")
+	private Endereco endereco;
+
+	public EmpresaResponseDto(Long id, String cnpj, String nomedaempresa, String fantasianome,
 			Date iniciodaatividade, String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel,
 			BigDecimal capitalsocial, String portedaempresa, Date opcaopelosimplesexcluidodosimples,
-			String opcaopelomei) {
+			String opcaopelomei, Endereco endereco) {
 		super();
 		this.id = id;
 		this.cnpj = cnpj;
@@ -62,13 +66,15 @@ public class EmpresaResponseDto {
 		this.portedaempresa = portedaempresa;
 		this.opcaopelosimplesexcluidodosimples = opcaopelosimplesexcluidodosimples;
 		this.opcaopelomei = opcaopelomei;
+		this.endereco = endereco;
 	}
 
-	public static EmpresaResponseDto converterEmpresaParaResponseDto(Empresa empresa) {
+	public static EmpresaResponseDto converterEmpresaParaEmpresaResponseDto(Empresa empresa) {
 		return new EmpresaResponseDto(empresa.getId(), empresa.getCnpj(), empresa.getNomedaempresa(),
 				empresa.getFantasianome(), empresa.getIniciodaatividade(), empresa.getNaturezajuridica(),
 				empresa.getSituacaocadastral(), empresa.getQualificacaodoresponsavel(), empresa.getCapitalsocial(),
-				empresa.getPortedaempresa(), empresa.getOpcaopelosimplesexcluidodosimples(), empresa.getOpcaopelomei());
+				empresa.getPortedaempresa(), empresa.getOpcaopelosimplesexcluidodosimples(), empresa.getOpcaopelomei(),
+				empresa.getEndereco());
 
 	}
 
@@ -80,11 +86,11 @@ public class EmpresaResponseDto {
 		this.id = id;
 	}
 
-	public BigDecimal getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(BigDecimal cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 
@@ -168,4 +174,11 @@ public class EmpresaResponseDto {
 		this.opcaopelomei = opcaopelomei;
 	}
 
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 }

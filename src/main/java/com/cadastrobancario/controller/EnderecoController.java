@@ -33,9 +33,9 @@ public class EnderecoController {
 	@Autowired
 	private EnderecoService enderecoService;
 
-	@ApiOperation(value = "Listar todos Endereco")
-	@GetMapping("/enderecos")
-	public List<EnderecoResponseDto> getEnderecos() {
+	@ApiOperation(value = "Listar todo Endereco")
+	@GetMapping("/endereco")
+	public List<EnderecoResponseDto> getEndereco() {
 		return enderecoService.listarTodosEnderecos().stream()
 				.map(endereco -> EnderecoResponseDto.converterEnderecoParaResponseDto(endereco))
 				.collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class EnderecoController {
 
 	@ApiOperation(value = "Salvar Endereco")
 	@PostMapping("/endereco")
-	public ResponseEntity<EnderecoResponseDto> salvar(@Valid @RequestBody EnderecoRequestDto enderecoDto) {
+	public ResponseEntity<EnderecoResponseDto> salvarEndereco(@Valid @RequestBody EnderecoRequestDto enderecoDto) {
 		Endereco enderecoSalvo = enderecoService.salvar(enderecoDto.converterEnderecoRequestDtoParaEntidadeEndereco());
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(EnderecoResponseDto.converterEnderecoParaResponseDto(enderecoSalvo));
@@ -60,7 +60,7 @@ public class EnderecoController {
 
 	@ApiOperation(value = "Atualizar Endereco")
 	@PutMapping("/endereco/{id}")
-	public ResponseEntity<EnderecoResponseDto> atualizar(@PathVariable Long id,
+	public ResponseEntity<EnderecoResponseDto> atualizarEndereco(@PathVariable Long id,
 			@Valid @RequestBody EnderecoRequestDto enderecoDto) {
 		Endereco enderecoAtualizado = enderecoService.atualizar(id,
 				enderecoDto.converterEnderecoRequestDtoParaEntidadeEndereco());

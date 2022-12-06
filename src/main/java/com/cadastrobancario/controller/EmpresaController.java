@@ -37,7 +37,7 @@ public class EmpresaController {
 	@GetMapping("/empresas")
 	public List<EmpresaResponseDto> getEmpresa() {
 		return empresaService.listarTodasEmpresa().stream()
-				.map(empresa -> EmpresaResponseDto.converterEmpresaParaResponseDto(empresa))
+				.map(empresa -> EmpresaResponseDto.converterEmpresaParaEmpresaResponseDto(empresa))
 				.collect(Collectors.toList());
 	}
 
@@ -46,16 +46,16 @@ public class EmpresaController {
 	public ResponseEntity<EmpresaResponseDto> buscarPorId(@PathVariable Long id) {
 		Optional<Empresa> empresa = empresaService.buscarEmpresaPorId(id);
 		return empresa.isPresent()
-				? ResponseEntity.ok(EmpresaResponseDto.converterEmpresaParaResponseDto(empresa.get()))
+				? ResponseEntity.ok(EmpresaResponseDto.converterEmpresaParaEmpresaResponseDto(empresa.get()))
 				: ResponseEntity.notFound().build();
 	}
 
 	@ApiOperation(value = "Salvar Empresa")
 	@PostMapping("/empresa")
-	public ResponseEntity<EmpresaResponseDto> salvar(@Valid @RequestBody EmpresaRequestDto empresaDto) {
+	public ResponseEntity<EmpresaResponseDto> salvarEmpresa(@Valid @RequestBody EmpresaRequestDto empresaDto) {
 		Empresa empresaSalva = empresaService.salvar(empresaDto.converterEmpresaRequestDtoParaEntidadeEmpresa());
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(EmpresaResponseDto.converterEmpresaParaResponseDto(empresaSalva));
+				.body(EmpresaResponseDto.converterEmpresaParaEmpresaResponseDto(empresaSalva));
 	}
 
 	@ApiOperation(value = "Atualizar Empresa")
@@ -64,7 +64,7 @@ public class EmpresaController {
 			@Valid @RequestBody EmpresaRequestDto empresaDto) {
 		Empresa empresaAtualizada = empresaService.atualizar(id,
 				empresaDto.converterEmpresaRequestDtoParaEntidadeEmpresa());
-		return ResponseEntity.ok(EmpresaResponseDto.converterEmpresaParaResponseDto(empresaAtualizada));
+		return ResponseEntity.ok(EmpresaResponseDto.converterEmpresaParaEmpresaResponseDto(empresaAtualizada));
 
 	}
 

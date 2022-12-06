@@ -1,12 +1,16 @@
 package com.cadastrobancario.entity;
 
-import java.util.Objects;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.cadastrobancario.dto.EnderecoRequestDto;
 
 @Entity
 @Table(name = "tb_endereco")
@@ -18,19 +22,15 @@ public class Endereco {
 	private String bairro;
 	private String nomedarua;
 	private String nomedoloteamento;
-	private Integer numerodoprediocomercial;
-	private Integer cep;
+	private String numerodoprediocomercial;
+	private String cep;
 
-	public Endereco() {
-	}
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "empresa_id")
+	private Empresa empresa;
 
-	public Endereco(Long id) {
-		super();
-		this.id = id;
-	}
-
-	public Endereco(Long id, String bairro, String nomedarua, String nomedoloteamento, Integer numerodoprediocomercial,
-			Integer cep) {
+	public Endereco(Long id, String bairro, String nomedarua, String nomedoloteamento, String numerodoprediocomercial,
+			String cep) {
 		super();
 		this.id = id;
 		this.bairro = bairro;
@@ -38,6 +38,17 @@ public class Endereco {
 		this.nomedoloteamento = nomedoloteamento;
 		this.numerodoprediocomercial = numerodoprediocomercial;
 		this.cep = cep;
+	}
+
+	public Endereco() {
+	}
+
+	public Endereco(EnderecoRequestDto endereco) {
+		this.bairro = endereco.getBairro();
+		this.nomedarua = endereco.getNomedarua();
+		this.nomedoloteamento = endereco.getNomedoloteamento();
+		this.numerodoprediocomercial = endereco.getNumerodoprediocomercial();
+		this.cep = endereco.getCep();
 	}
 
 	public Long getId() {
@@ -72,46 +83,28 @@ public class Endereco {
 		this.nomedoloteamento = nomedoloteamento;
 	}
 
-	public Integer getNumerodoprediocomercial() {
+	public String getNumerodoprediocomercial() {
 		return numerodoprediocomercial;
 	}
 
-	public void setNumerodoprediocomercial(Integer numerodoprediocomercial) {
+	public void setNumerodoprediocomercial(String numerodoprediocomercial) {
 		this.numerodoprediocomercial = numerodoprediocomercial;
 	}
 
-	public Integer getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(Integer cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 
-	@Override
-	public String toString() {
-		return "Endereco [id=" + id + ", bairro=" + bairro + ", nomedarua=" + nomedarua + ", nomedoloteamento="
-				+ nomedoloteamento + ", numerodoprediocomercial=" + numerodoprediocomercial + ", cep=" + cep + "]";
+	public Empresa getEmpresa() {
+		return empresa;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(bairro, cep, id, nomedarua, nomedoloteamento, numerodoprediocomercial);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep) && Objects.equals(id, other.id)
-				&& Objects.equals(nomedarua, other.nomedarua)
-				&& Objects.equals(nomedoloteamento, other.nomedoloteamento)
-				&& Objects.equals(numerodoprediocomercial, other.numerodoprediocomercial);
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 }

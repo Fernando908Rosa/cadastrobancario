@@ -19,13 +19,13 @@ public class EnderecoResponseDto {
 	private String nomedoloteamento;
 
 	@Column(name = "numerodoprediocomercial")
-	private Integer numerodoprediocomercial;
+	private String numerodoprediocomercial;
 
 	@Column(name = "cep")
-	private Integer cep;
+	private String cep;
 
 	public EnderecoResponseDto(Long id, String bairro, String nomedarua, String nomedoloteamento,
-			Integer numerodoprediocomercial, Integer cep) {
+			String numerodoprediocomercial, String cep) {
 		super();
 		this.id = id;
 		this.bairro = bairro;
@@ -72,19 +72,19 @@ public class EnderecoResponseDto {
 		this.nomedoloteamento = nomedoloteamento;
 	}
 
-	public Integer getNumerodoprediocomercial() {
+	public String getNumerodoprediocomercial() {
 		return numerodoprediocomercial;
 	}
 
-	public void setNumerodoprediocomercial(Integer numerodoprediocomercial) {
+	public void setNumerodoprediocomercial(String numerodoprediocomercial) {
 		this.numerodoprediocomercial = numerodoprediocomercial;
 	}
 
-	public Integer getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(Integer cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 

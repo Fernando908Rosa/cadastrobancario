@@ -2,12 +2,17 @@ package com.cadastrobancario.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +22,7 @@ public class Empresa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private BigDecimal cnpj;
+	private String cnpj;
 	private String nomedaempresa;
 	private String fantasianome;
 	private Date iniciodaatividade;
@@ -29,17 +34,19 @@ public class Empresa {
 	private Date opcaopelosimplesexcluidodosimples;
 	private String opcaopelomei;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "empresa")
+	private Endereco endereco;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "empresa_id")
+	private List<Contato> contato;
+
 	public Empresa() {
 	}
 
-	public Empresa(Long id) {
-		super();
-		this.id = id;
-	}
-
-	public Empresa(Long id, BigDecimal cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
+	public Empresa(Long id, String cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
 			String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel, BigDecimal capitalsocial,
-			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei) {
+			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei, Endereco endereco) {
 		super();
 		this.id = id;
 		this.cnpj = cnpj;
@@ -53,6 +60,8 @@ public class Empresa {
 		this.portedaempresa = portedaempresa;
 		this.opcaopelosimplesexcluidodosimples = opcaopelosimplesexcluidodosimples;
 		this.opcaopelomei = opcaopelomei;
+		this.endereco = endereco;
+//		this.contato = contato;
 	}
 
 	public Long getId() {
@@ -63,11 +72,11 @@ public class Empresa {
 		this.id = id;
 	}
 
-	public BigDecimal getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(BigDecimal cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 
@@ -151,42 +160,20 @@ public class Empresa {
 		this.opcaopelomei = opcaopelomei;
 	}
 
-	@Override
-	public String toString() {
-		return "Empresa [id=" + id + ", cnpj=" + cnpj + ", nomedaempresa=" + nomedaempresa + ", fantasianome="
-				+ fantasianome + ", iniciodaatividade=" + iniciodaatividade + ", naturezajuridica=" + naturezajuridica
-				+ ", situacaocadastral=" + situacaocadastral + ", qualificacaodoresponsavel="
-				+ qualificacaodoresponsavel + ", capitalsocial=" + capitalsocial + ", portedaempresa=" + portedaempresa
-				+ ", opcaopelosimplesexcluidodosimples=" + opcaopelosimplesexcluidodosimples + ", opcaopelomei="
-				+ opcaopelomei + "]";
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(capitalsocial, cnpj, fantasianome, id, iniciodaatividade, naturezajuridica, nomedaempresa,
-				opcaopelomei, opcaopelosimplesexcluidodosimples, portedaempresa, qualificacaodoresponsavel,
-				situacaocadastral);
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Empresa other = (Empresa) obj;
-		return Objects.equals(capitalsocial, other.capitalsocial) && Objects.equals(cnpj, other.cnpj)
-				&& Objects.equals(fantasianome, other.fantasianome) && Objects.equals(id, other.id)
-				&& Objects.equals(iniciodaatividade, other.iniciodaatividade)
-				&& Objects.equals(naturezajuridica, other.naturezajuridica)
-				&& Objects.equals(nomedaempresa, other.nomedaempresa)
-				&& Objects.equals(opcaopelomei, other.opcaopelomei)
-				&& Objects.equals(opcaopelosimplesexcluidodosimples, other.opcaopelosimplesexcluidodosimples)
-				&& Objects.equals(portedaempresa, other.portedaempresa)
-				&& Objects.equals(qualificacaodoresponsavel, other.qualificacaodoresponsavel)
-				&& Objects.equals(situacaocadastral, other.situacaocadastral);
-	}
+//
+//	public List<Contato> getContato() {
+//		return contato;
+//	}
+//
+//	public void setContatos(List<Contato> contato) {
+//		this.contato = contato;
+	
 
 }

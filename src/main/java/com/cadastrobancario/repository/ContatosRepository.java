@@ -2,8 +2,8 @@ package com.cadastrobancario.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cadastrobancario.entity.Contatos;
+import com.cadastrobancario.entity.Contato;
 
-public interface ContatosRepository extends JpaRepository<Contatos, Long> {
+public interface ContatosRepository extends JpaRepository<Contato, Long> {
 
 }

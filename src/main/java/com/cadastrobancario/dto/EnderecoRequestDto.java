@@ -16,10 +16,10 @@ public class EnderecoRequestDto {
 	private String nomedoloteamento;
 
 	@Column(name = "numerodoprediocomercial")
-	private Integer numerodoprediocomercial;
+	private String numerodoprediocomercial;
 
 	@Column(name = "cep")
-	private Integer cep;
+	private String cep;
 
 	public Endereco converterEnderecoRequestDtoParaEntidadeEndereco() {
 		return new Endereco(null, bairro, nomedarua, nomedoloteamento, numerodoprediocomercial, cep);
@@ -49,19 +49,19 @@ public class EnderecoRequestDto {
 		this.nomedoloteamento = nomedoloteamento;
 	}
 
-	public Integer getNumerodoprediocomercial() {
+	public String getNumerodoprediocomercial() {
 		return numerodoprediocomercial;
 	}
 
-	public void setNumerodoprediocomercial(Integer numerodoprediocomercial) {
+	public void setNumerodoprediocomercial(String numerodoprediocomercial) {
 		this.numerodoprediocomercial = numerodoprediocomercial;
 	}
 
-	public Integer getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(Integer cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 
