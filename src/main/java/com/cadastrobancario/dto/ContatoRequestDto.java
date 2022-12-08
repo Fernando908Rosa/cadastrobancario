@@ -17,7 +17,7 @@ public class ContatoRequestDto {
 	private Tipodecontato tipodecontato;
 
 	public Contato converterContatoRequestDtoParaEntidadeContato() {
-		return new Contato(null, descricaodotipodecontato, tipodecontato);
+		return new Contato( null, descricaodotipodecontato, tipodecontato);
 
 	}
 

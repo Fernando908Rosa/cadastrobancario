@@ -1,12 +1,16 @@
 package com.cadastrobancario.dto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 
+import com.cadastrobancario.entity.Contato;
 import com.cadastrobancario.entity.Empresa;
 import com.cadastrobancario.entity.Endereco;
+import com.cadastrobancario.entity.Socio;
 
 public class EmpresaRequestDto {
 
@@ -46,13 +50,16 @@ public class EmpresaRequestDto {
 	@Column(name = "endereco")
 	private EnderecoRequestDto endereco;
 
-//	@Column(name = "contato")
-//	private List<ContatoRequestDto> contato;
+	@Column(name = "contato")
+	private List<ContatoRequestDto> contato;
+
+	@Column(name = "socio")
+	private List<SocioRequestDto> socio;
 
 	public EmpresaRequestDto(String cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
 			String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel, BigDecimal capitalsocial,
 			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei,
-			EnderecoRequestDto endereco) {
+			EnderecoRequestDto endereco, List<ContatoRequestDto> contato, List<SocioRequestDto> socio) {
 		super();
 		this.cnpj = cnpj;
 		this.nomedaempresa = nomedaempresa;
@@ -66,29 +73,35 @@ public class EmpresaRequestDto {
 		this.opcaopelosimplesexcluidodosimples = opcaopelosimplesexcluidodosimples;
 		this.opcaopelomei = opcaopelomei;
 		this.endereco = endereco;
-//		this.contato = contato;
+		this.contato = contato;
+		this.socio = socio;
 	}
 
 	public Empresa converterEmpresaRequestDtoParaEntidadeEmpresa() {
 		return new Empresa(null, cnpj, nomedaempresa, fantasianome, iniciodaatividade, naturezajuridica,
 				situacaocadastral, qualificacaodoresponsavel, capitalsocial, portedaempresa,
-				opcaopelosimplesexcluidodosimples, opcaopelomei, new Endereco(endereco));
+				opcaopelosimplesexcluidodosimples, opcaopelomei, new Endereco(endereco), retornacontatos(contato),
+				retornandoSocios(socio));
 	}
 
-//	public List<ContatoRequestDto> getContato() {
-//		return contato;
-//	}
+	public List<Contato> retornacontatos(List<ContatoRequestDto> contatos) {
+		List<Contato> dtos = new ArrayList<Contato>();
+		for (ContatoRequestDto contatodto : contatos) {
+			Contato dto = new Contato(contatodto);
+			dtos.add(dto);
+		}
+		return dtos;
 
-//	public void setContato(List<ContatoRequestDto> contato) {
-//		this.contato = contato;
-//	}
-
-	public EnderecoRequestDto getEndereco() {
-		return endereco;
 	}
 
-	public void setEndereco(EnderecoRequestDto endereco) {
-		this.endereco = endereco;
+	public List<Socio> retornandoSocios(List<SocioRequestDto> socios) {
+		List<Socio> dtos = new ArrayList<Socio>();
+		for (SocioRequestDto sociodto : socios) {
+			Socio dto = new Socio(sociodto);
+			dtos.add(dto);
+		}
+		return dtos;
+
 	}
 
 	public String getCnpj() {
@@ -179,4 +192,27 @@ public class EmpresaRequestDto {
 		this.opcaopelomei = opcaopelomei;
 	}
 
+	public EnderecoRequestDto getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(EnderecoRequestDto endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<ContatoRequestDto> getContato() {
+		return contato;
+	}
+
+	public void setContato(List<ContatoRequestDto> contato) {
+		this.contato = contato;
+	}
+
+	public List<SocioRequestDto> getSocio() {
+		return socio;
+	}
+
+	public void setSocio(List<SocioRequestDto> socio) {
+		this.socio = socio;
+	}
 }

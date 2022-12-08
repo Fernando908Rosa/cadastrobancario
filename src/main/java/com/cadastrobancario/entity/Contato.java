@@ -1,5 +1,7 @@
 package com.cadastrobancario.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,9 +28,8 @@ public class Contato {
 	@JoinColumn(name = "contato")
 	private Empresa empresa;
 
-	public Contato(Long id, String descricaodotipodecontato, Tipodecontato tipodecontato) {
+	public Contato(String descricaodotipodecontato, Tipodecontato tipodecontato) {
 		super();
-		this.id = id;
 		this.descricaodotipodecontato = descricaodotipodecontato;
 		this.tipodecontato = tipodecontato;
 	}
@@ -36,9 +37,15 @@ public class Contato {
 	public Contato() {
 	}
 
-	public Contato(ContatoRequestDto contato) {
-		this.descricaodotipodecontato = contato.getDescricaodotipodecontato();
-		this.tipodecontato = contato.getTipodecontato();
+	public Contato(List<ContatoRequestDto> contato, String descricaodotipodecontato, Tipodecontato tipodecontato) {
+		this.descricaodotipodecontato = descricaodotipodecontato;
+		this.tipodecontato = tipodecontato;
+
+	}
+
+	public Contato(ContatoRequestDto contatodto) {
+		this.descricaodotipodecontato = contatodto.getDescricaodotipodecontato();
+		this.tipodecontato = contatodto.getTipodecontato();
 	}
 
 	public Long getId() {

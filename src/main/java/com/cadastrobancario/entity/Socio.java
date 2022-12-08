@@ -3,15 +3,16 @@ package com.cadastrobancario.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.cadastrobancario.dto.SocioRequestDto;
 import com.cadastrobancario.enuns.Qualificacao;
 
 @Entity
@@ -25,22 +26,35 @@ public class Socio {
 	private String cpf;
 	private Date datadeentrada;
 	private Qualificacao qualificacao;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "empresa_id")
-	private List<Socio> socio;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "socio")
+	private Empresa empresa;
 
-	public Socio() {
-	}
-
-	public Socio(Long id, String nome, String cpf, Date datadeentrada, Qualificacao qualificacao) {
+	public Socio(String nome, String cpf, Date datadeentrada, Qualificacao qualificacao) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.datadeentrada = datadeentrada;
 		this.qualificacao = qualificacao;
+	}
+
+	public Socio() {
+	}
+
+	public Socio(List<SocioRequestDto> socio, String nome, String cpf, Date datadeentrada, Qualificacao qualificacao) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.datadeentrada = datadeentrada;
+		this.qualificacao = qualificacao;
+	}
+
+	public Socio(SocioRequestDto sociodto) {
+		this.nome = sociodto.getNome();
+		this.cpf = sociodto.getCpf();
+		this.datadeentrada = sociodto.getDatadeentrada();
+		this.qualificacao = sociodto.getQualificacao();
+
 	}
 
 	public Long getId() {
@@ -82,5 +96,4 @@ public class Socio {
 	public void setQualificacao(Qualificacao qualificacao) {
 		this.qualificacao = qualificacao;
 	}
-
 }

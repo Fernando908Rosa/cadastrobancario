@@ -2,11 +2,14 @@ package com.cadastrobancario.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 
+import com.cadastrobancario.entity.Contato;
 import com.cadastrobancario.entity.Empresa;
 import com.cadastrobancario.entity.Endereco;
+import com.cadastrobancario.entity.Socio;
 
 public class EmpresaResponseDto {
 
@@ -49,10 +52,16 @@ public class EmpresaResponseDto {
 	@Column(name = "endereco")
 	private Endereco endereco;
 
-	public EmpresaResponseDto(Long id, String cnpj, String nomedaempresa, String fantasianome,
-			Date iniciodaatividade, String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel,
-			BigDecimal capitalsocial, String portedaempresa, Date opcaopelosimplesexcluidodosimples,
-			String opcaopelomei, Endereco endereco) {
+	@Column(name = "contato")
+	private List<Contato> contato;
+
+	@Column(name = "socio")
+	private List<Socio> socio;
+
+	public EmpresaResponseDto(Long id, String cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
+			String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel, BigDecimal capitalsocial,
+			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei, Endereco endereco,
+			List<Contato> contato, List<Socio> socio) {
 		super();
 		this.id = id;
 		this.cnpj = cnpj;
@@ -67,6 +76,8 @@ public class EmpresaResponseDto {
 		this.opcaopelosimplesexcluidodosimples = opcaopelosimplesexcluidodosimples;
 		this.opcaopelomei = opcaopelomei;
 		this.endereco = endereco;
+		this.contato = contato;
+		this.socio = socio;
 	}
 
 	public static EmpresaResponseDto converterEmpresaParaEmpresaResponseDto(Empresa empresa) {
@@ -74,7 +85,7 @@ public class EmpresaResponseDto {
 				empresa.getFantasianome(), empresa.getIniciodaatividade(), empresa.getNaturezajuridica(),
 				empresa.getSituacaocadastral(), empresa.getQualificacaodoresponsavel(), empresa.getCapitalsocial(),
 				empresa.getPortedaempresa(), empresa.getOpcaopelosimplesexcluidodosimples(), empresa.getOpcaopelomei(),
-				empresa.getEndereco());
+				empresa.getEndereco(), empresa.getContato(), empresa.getSocio());
 
 	}
 
@@ -180,5 +191,21 @@ public class EmpresaResponseDto {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public List<Socio> getSocio() {
+		return socio;
+	}
+
+	public void setSocio(List<Socio> socio) {
+		this.socio = socio;
+	}
+
+	public List<Contato> getContato() {
+		return contato;
+	}
+
+	public void setContato(List<Contato> contato) {
+		this.contato = contato;
 	}
 }

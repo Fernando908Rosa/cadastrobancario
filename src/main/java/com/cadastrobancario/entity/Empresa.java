@@ -38,15 +38,20 @@ public class Empresa {
 	private Endereco endereco;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "empresa_id")
+	@JoinColumn(name = "id_empresa", referencedColumnName = "id")
 	private List<Contato> contato;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_empresa", referencedColumnName = "id")
+	private List<Socio> socio;
 
 	public Empresa() {
 	}
 
 	public Empresa(Long id, String cnpj, String nomedaempresa, String fantasianome, Date iniciodaatividade,
 			String naturezajuridica, Date situacaocadastral, String qualificacaodoresponsavel, BigDecimal capitalsocial,
-			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei, Endereco endereco) {
+			String portedaempresa, Date opcaopelosimplesexcluidodosimples, String opcaopelomei, Endereco endereco,
+			List<Contato> contato, List<Socio> socio) {
 		super();
 		this.id = id;
 		this.cnpj = cnpj;
@@ -61,7 +66,8 @@ public class Empresa {
 		this.opcaopelosimplesexcluidodosimples = opcaopelosimplesexcluidodosimples;
 		this.opcaopelomei = opcaopelomei;
 		this.endereco = endereco;
-//		this.contato = contato;
+		this.contato = contato;
+		this.socio = socio;
 	}
 
 	public Long getId() {
@@ -167,13 +173,21 @@ public class Empresa {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-//
-//	public List<Contato> getContato() {
-//		return contato;
-//	}
-//
-//	public void setContatos(List<Contato> contato) {
-//		this.contato = contato;
-	
+
+	public List<Contato> getContato() {
+		return contato;
+	}
+
+	public void setContato(List<Contato> contato) {
+		this.contato = contato;
+	}
+
+	public List<Socio> getSocio() {
+		return socio;
+	}
+
+	public void setSocio(List<Socio> socio) {
+		this.socio = socio;
+	}
 
 }
